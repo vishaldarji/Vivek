@@ -3,6 +3,7 @@ package com.vivek.com.vivek;
 
 import com.vivek.Repo.EmployeeRepo;
 import com.vivek.enttiy.Employee;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -23,7 +24,7 @@ public class EmployeeService {
 
     List<Employee> emps=repo.findAll();
 
-    public void  generateReportExcel(HttpServletResponse responce ){
+    public void  generateReportExcel(HttpServletResponse responce ) throws IOException {
         HSSFSheet sheet;
         try (HSSFWorkbook sheets = new HSSFWorkbook()) {
             sheet = sheets.createSheet("Employee_Sheet");
@@ -38,12 +39,12 @@ public class EmployeeService {
         int specificRow=1;
         for(Employee emp:emps){
             HSSFRow dataRow = sheet.createRow(specificRow);
-            dataRow.createCell(0).setCellValue(emp.get);
-
-
+            dataRow.createCell(0).setCellValue(emp.getId());
+            dataRow.createCell(1).setCellValue(emp.getName());
+            dataRow.createCell(2).setCellValue(emp.getSal());
         }
-
-
+        specificRow++;
+        ServletOutputStream stream = responce.getOutputStream();
 
 
     }
