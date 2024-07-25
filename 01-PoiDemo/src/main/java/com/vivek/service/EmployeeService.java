@@ -1,4 +1,4 @@
-package com.vivek.com.vivek;
+package com.vivek.service;
 
 
 import com.vivek.Repo.EmployeeRepo;
@@ -10,8 +10,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
 import java.io.IOException;
 import java.util.List;
 
@@ -20,9 +18,8 @@ import java.util.List;
 public class EmployeeService {
 
     @Autowired
-    private EmployeeRepo repo;
+     private EmployeeRepo repo;
 
-    List<Employee> emps=repo.findAll();
 
     public void  generateReportExcel(HttpServletResponse responce ) throws IOException {
 
@@ -32,15 +29,16 @@ public class EmployeeService {
         row.createCell(0).setCellValue("id");
         row.createCell(1).setCellValue("Name");
         row.createCell(2).setCellValue("Sal");
-
+        List<Employee> emps=repo.findAll();
         int specificRow=1;
         for(Employee emp:emps){
             HSSFRow dataRow = sheet.createRow(specificRow);
             dataRow.createCell(0).setCellValue(emp.getId());
             dataRow.createCell(1).setCellValue(emp.getName());
             dataRow.createCell(2).setCellValue(emp.getSal());
+            specificRow++;
         }
-        specificRow++;
+
         ServletOutputStream stream = responce.getOutputStream();
          sheets.write(stream);
          sheets.close();

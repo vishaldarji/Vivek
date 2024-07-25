@@ -7,12 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Data
-@Setter
-@Getter
 @Entity
 public class Employee {
 
-    @Id
+   @Id
     private Integer id;
     private String name;
     private Double sal;
