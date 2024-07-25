@@ -25,12 +25,9 @@ public class EmployeeService {
     List<Employee> emps=repo.findAll();
 
     public void  generateReportExcel(HttpServletResponse responce ) throws IOException {
-        HSSFSheet sheet;
-        try (HSSFWorkbook sheets = new HSSFWorkbook()) {
-            sheet = sheets.createSheet("Employee_Sheet");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        HSSFWorkbook sheets = new HSSFWorkbook();
+        HSSFSheet sheet = sheets.createSheet("Employee_Sheet");
         HSSFRow row = sheet.createRow(0);
         row.createCell(0).setCellValue("id");
         row.createCell(1).setCellValue("Name");
@@ -45,6 +42,10 @@ public class EmployeeService {
         }
         specificRow++;
         ServletOutputStream stream = responce.getOutputStream();
+         sheets.write(stream);
+         sheets.close();
+         stream.close();
+
 
 
     }
